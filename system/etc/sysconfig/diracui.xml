@@ -1,0 +1,4 @@
+<config>
+    <allow-in-power-save package="me.algorhythmics.diracui" />
+    <allow-in-data-usage-save package="me.algorhythmics.diracui" />
+</config>

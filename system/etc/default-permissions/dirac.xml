@@ -1,0 +1,6 @@
+<exceptions>
+    <exception package="me.algorhythmics.diracui">
+        <permission name="android.permission.BLUETOOTH_CONNECT" fixed="false"/>
+        <permission name="android.permission.BLUETOOTH" fixed="false"/>
+    </exception>
+</exceptions>

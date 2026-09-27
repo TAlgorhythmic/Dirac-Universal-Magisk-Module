@@ -1,0 +1,6 @@
+id=dirac_universal
+name=Dirac Universal - Port from Oplus Ossi
+version=v0.1.0
+versionCode=1
+author=TAlgorhythmic
+description=Dirac audio for any device. Bundles the control service, my own custom DiracUI app, and a headphone filter database that combines multiple devices. Not affiliated with Dirac Research.

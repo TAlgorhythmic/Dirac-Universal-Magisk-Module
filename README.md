@@ -24,17 +24,18 @@ impulse-response filters, EQ, and spatial effects.
 * Android 8.0 (API 26) or newer. Hard requirement.
 * Magisk, KernelSU or APatch
 * [Audio Modification Library](https://github.com/reiryuki/Audio-Modification-Library-Ryuki-Mod-Magisk-Module) if used alongside any other audio mod.
-* **KernelSU only:** a mount metamodule. Recent KernelSU delegates file mounting to
-  a pluggable metamodule, and without one the `system/` payload is never mounted —
-  scripts and properties still run, so the module looks installed while doing
-  nothing. Install one of these first, then reboot:
-    * [meta-overlayfs](https://github.com/tiann/KernelSU/releases) — the official
-      reference implementation; overlayfs with ext4 image support
-    * [mountify](https://github.com/backslashxx/mountify) — overlayfs backed by
-      tmpfs or an ext4 sparse image; also runs on Magisk and APatch
+* **KernelSU only:** a mount metamodule. Install one of these first, then reboot:
+    * [meta-overlayfs](https://github.com/tiann/KernelSU/releases) — the official reference implementation
+    * [mountify](https://github.com/backslashxx/mountify) — overlayfs backed by tmpfs or an ext4 sparse image; also runs on Magisk and APatch
     * [Hybrid-mount](https://github.com/Hybrid-Mount/meta-hybrid_mount) — Flexible mounting, lets you choose between magic mount an overlayfs, written in rust
 
   Magisk and APatch mount modules themselves and need nothing extra.
+* **KernelSU on Android 9 or older:** turn off *Umount modules by default* in the
+  KernelSU settings, or disable *Umount modules* per app for
+  `me.algorhythmics.diracui` and `se.dirac.acs` in App Profile. Both APKs ship
+  inside the module, so unmounting it for an app takes that app's own APK with it:
+  the launcher cannot load the icon and the app crashes on start before it does
+  anything. On Android 10 and newer both are installed as updated system apps, avoiding this issue entirely.
 
 ## Installing
 

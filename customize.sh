@@ -13,13 +13,9 @@ ui_print "- $(getprop ro.product.device)  Android $(getprop ro.build.version.rel
 
 case "$ARCH" in
 	arm64)
-		mv -f "$MODPATH/system/priv-app/DiracUI64" "$MODPATH/system/priv-app/DiracUI"
-		rm -rf "$MODPATH/system/priv-app/DiracUI32"
 		;;
 	arm)
 		rm -rf "$MODPATH/system/lib64"
-		mv -f "$MODPATH/system/priv-app/DiracUI32" "$MODPATH/system/priv-app/DiracUI"
-		rm -rf "$MODPATH/system/priv-app/DiracUI64"
 		;;
 	*) abort "! Unsupported architecture: $ARCH" ;;
 esac

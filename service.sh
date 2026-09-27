@@ -24,9 +24,9 @@ until [ "$(getprop sys.boot_completed)" = "1" ]; do
 done
 sleep 5
 
-if [ "$KSU" = "true" ] || [ "$APATCH" = "true" ]; then
-	CHECK_PATH=true
-	. "$MODDIR/stage_apps.sh"
+# If using magisk
+if [ -n "$MAGISK_VER" ]; then
+	
 fi
 
 if [ "$(getprop ro.build.version.sdk)" -ge 31 ]; then

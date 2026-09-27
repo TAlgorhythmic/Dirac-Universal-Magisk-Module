@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- se.dirac.acs sits in /system/priv-app and requests INTERACT_ACROSS_USERS,
-     which is signature|privileged. On builds with
-     ro.control_privapp_permissions=enforce an unlisted privileged permission
-     aborts boot, so it has to be allowlisted here.
-     INTERACT_ACROSS_USERS_FULL is signature-only (platform key) and cannot be
-     granted to a self-signed app; it is simply not granted, which is harmless. -->
 <permissions>
     <privapp-permissions package="se.dirac.acs">
         <permission name="android.permission.INTERACT_ACROSS_USERS"/>

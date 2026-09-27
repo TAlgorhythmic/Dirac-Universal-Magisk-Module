@@ -24,15 +24,49 @@ until [ "$(getprop sys.boot_completed)" = "1" ]; do
 done
 sleep 5
 
+ACSPKG="se.dirac.acs"
+UIPKG="me.algorhythmics.diracui"
+
 # If using magisk
-if [ -n "$MAGISK_VER" ]; then
-	
+if command -v magisk >/dev/null 2>&1 && [ -z "$KSU" ] && [ -z "$APATCH" ]; then
+	magisk --denylist rm "$ACSPKG" 2>/dev/null
+	magisk --denylist rm "$UIPKG" 2>/dev/null
+	magisk --sulist add "$ACSPKG" 2>/dev/null
+	magisk --sulist add "$UIPKG" 2>/dev/null
+
+	if magisk magiskhide sulist 2>/dev/null; then
+		magisk magiskhide add "$ACSPKG" 2>/dev/null
+		magisk magiskhide add "$UIPKG" 2>/dev/null
+	else
+		magisk magiskhide rm "$ACSPKG" 2>/dev/null
+		magisk magiskhide rm "$UIPKG" 2>/dev/null
+	fi
 fi
 
-if [ "$(getprop ro.build.version.sdk)" -ge 31 ]; then
-	if pm grant me.algorhythmics.diracui android.permission.BLUETOOTH_CONNECT; then
-		dlog "BLUETOOTH_CONNECT granted"
-	else
-		dlog "WARNING: could not grant BLUETOOTH_CONNECT"
+API=$(getprop ro.build.version.sdk)
+
+if appops get "$ACSPKG" > /dev/null 2>&1; then
+	if [ "$API" -ge 30 ]; then
+		appops set "$ACSPKG" AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
+	fi
+	if [ "$API" -ge 33 ]; then
+		appops set "$ACSPKG" ACCESS_RESTRICTED_SETTINGS allow
+	fi
+	if [ "$API" -ge 35 ]; then
+		pm grant --all-permissions "$ACSPKG"
+	fi
+fi
+
+if appops get "$UIPKG" > /dev/null 2>&1; then
+	if [ "$API" -ge 30 ]; then
+		appops set "$UIPKG" AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
+	fi
+	if [ "$API" -ge 33 ]; then
+		appops set "$UIPKG" ACCESS_RESTRICTED_SETTINGS allow
+	fi
+	if [ "$API" -ge 35 ]; then
+		pm grant --all-permissions "$UIPKG"
+	elif [ "$API" -ge 31 ]; then
+		pm grant "$UIPKG" android.permission.BLUETOOTH_CONNECT
 	fi
 fi

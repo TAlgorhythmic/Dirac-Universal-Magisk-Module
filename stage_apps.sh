@@ -61,6 +61,6 @@ else
 	elif $STAGED; then
 		slog "- Reboot to finish installing the apps"
 	elif $LEFT; then
-		slog "! Could not stage the apps, will retry on next boot"
+		slog "! Could not stage the apps, will retry on next boot, you may need to reboot 2 times."
 	fi
 fi

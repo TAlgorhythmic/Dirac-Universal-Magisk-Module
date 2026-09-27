@@ -45,8 +45,6 @@ To uninstall, remove the module from the root manager.
 ## Building
 
     make          # build out/<id>-<version>.zip
-    make check    # sanity-check the module layout
-    make push     # install on a booted, rooted device
 
 ## Licence
 

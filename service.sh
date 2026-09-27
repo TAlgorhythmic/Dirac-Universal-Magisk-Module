@@ -6,6 +6,8 @@ MODDIR=${0%/*}
 
 dlog() { /system/bin/log -p i -t dirac "$1" 2>/dev/null; }
 
+dlog "Running dirac service.sh"
+
 NS=vendor.dirac
 CFG=$(getprop $NS.config)
 dlog "$NS.config=$CFG startAtBoot=$(getprop $NS.acs.startAtBoot) storeSettings=$(getprop $NS.acs.storeSettings)"
@@ -27,8 +29,6 @@ until [ "$(getprop sys.boot_completed)" = "1" ]; do
 	sleep 2
 done
 sleep 5
-
-: > "$LOG"
 
 for entry in $APPS; do
 	pkg=${entry%%:*}
@@ -65,5 +65,4 @@ done
 SDK=$(getprop ro.build.version.sdk)
 if [ "$SDK" -ge 31 ]; then
 	pm grant me.algorhythmics.diracui android.permission.BLUETOOTH_CONNECT
-	dlog "Permission granted"
 fi

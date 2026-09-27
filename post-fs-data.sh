@@ -105,4 +105,5 @@ for SRC in $(find /vendor/etc /system/etc /odm/etc /my_product/etc -maxdepth 2 -
 done
 
 [ "$COUNT" -eq 0 ] && dlog "WARNING: no audio_effects config found, Dirac will not load"
+dlog "Post fs script finished"
 exit 0

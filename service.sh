@@ -65,4 +65,5 @@ done
 SDK=$(getprop ro.build.version.sdk)
 if [ "$SDK" -ge 31 ]; then
 	pm grant me.algorhythmics.diracui android.permission.BLUETOOTH_CONNECT
+	dlog "Permission granted"
 fi

@@ -30,12 +30,12 @@ impulse-response filters, EQ, and spatial effects.
     * [Hybrid-mount](https://github.com/Hybrid-Mount/meta-hybrid_mount) — Flexible mounting, lets you choose between magic mount an overlayfs, written in rust
 
   Magisk and APatch mount modules themselves and need nothing extra.
-* **KernelSU on Android 9 or older:** turn off *Umount modules by default* in the
-  KernelSU settings, or disable *Umount modules* per app for
-  `me.algorhythmics.diracui` and `se.dirac.acs` in App Profile. Both APKs ship
-  inside the module, so unmounting it for an app takes that app's own APK with it:
-  the launcher cannot load the icon and the app crashes on start before it does
-  anything. On Android 10 and newer both are installed as updated system apps, avoiding this issue entirely.
+* **KernelSU only:** both APKs ship inside the module, so unmounting modules for
+  an app takes that app's own APK with it. Pick one:
+    * Turn off *Umount modules by default* in the KernelSU settings, or
+    * Disable *Umount modules* in App Profile for `me.algorhythmics.diracui` and
+      `se.dirac.acs`. Doing the same for your Launcher, SystemUI, Settings and
+      PermissionController is also recommended.
 
 ## Installing
 

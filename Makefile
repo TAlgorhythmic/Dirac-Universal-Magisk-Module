@@ -17,12 +17,12 @@ ZIP   := $(OUT)/$(ID)-$(VERSION).zip
 
 # Contents of the zip. Optional files are picked up only if they exist.
 CONTENT := $(MODULE_PROP) META-INF customize.sh service.sh post-fs-data.sh \
-           uninstall.sh stage_apps.sh system
+           uninstall.sh system
 CONTENT += README.md LICENSE aml.sh
 CONTENT += $(wildcard sepolicy.rule) $(wildcard system.prop)
 
 SOURCES := $(shell find $(CONTENT) -type f 2>/dev/null)
-TEXT    := $(MODULE_PROP) customize.sh service.sh post-fs-data.sh uninstall.sh stage_apps.sh
+TEXT    := $(MODULE_PROP) customize.sh service.sh post-fs-data.sh uninstall.sh
 
 ADB      ?= adb
 DEVICE   ?= /data/local/tmp

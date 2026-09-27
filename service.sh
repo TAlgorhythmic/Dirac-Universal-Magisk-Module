@@ -24,8 +24,10 @@ until [ "$(getprop sys.boot_completed)" = "1" ]; do
 done
 sleep 5
 
-CHECK_PATH=true
-. "$MODDIR/stage_apps.sh"
+if [ "$KSU" = "true" ] || [ "$APATCH" = "true" ]; then
+	CHECK_PATH=true
+	. "$MODDIR/stage_apps.sh"
+fi
 
 if [ "$(getprop ro.build.version.sdk)" -ge 31 ]; then
 	if pm grant me.algorhythmics.diracui android.permission.BLUETOOTH_CONNECT; then

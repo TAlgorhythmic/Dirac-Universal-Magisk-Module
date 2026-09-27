@@ -56,10 +56,12 @@ done
 
 ui_print "- Effects are registered at every boot by post-fs-data.sh"
 
-ui_print "- Staging apps..."
-MODDIR="$MODPATH"
-CHECK_PATH=false
-. "$MODPATH/stage_apps.sh"
+if [ "$KSU" = "true" ] || [ "$APATCH" = "true" ]; then
+	ui_print "- Staging apps..."
+	MODDIR="$MODPATH"
+	CHECK_PATH=false
+	. "$MODPATH/stage_apps.sh"
+fi
 
 ui_print "- Done. Reboot to apply."
 ui_print " "

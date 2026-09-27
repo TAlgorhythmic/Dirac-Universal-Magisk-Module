@@ -1,3 +1,0 @@
-# Rename to sepolicy.rule to have Magisk apply these at boot.
-# One magiskpolicy statement per line, no comments in the real file.
-# allow mediaserver system_file file { read open getattr execute }

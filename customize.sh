@@ -43,7 +43,7 @@ set_perm_recursive "$MODPATH" 0 0 0755 0644
 for d in "$MODPATH/system/vendor/etc" "$MODPATH/system/odm/etc" "$MODPATH/system/my_product/etc"; do
 	[ -d "$d" ] && set_perm_recursive "$d" 0 0 0755 0644 u:object_r:vendor_configs_file:s0
 done
-for d in "$MODPATH/system/vendor/lib/soundfx" "$MODPATH/system/vendor/lib64/soundfx"; do
+for d in "$MODPATH/system/vendor/lib" "$MODPATH/system/vendor/lib64"; do
 	[ -d "$d" ] && set_perm_recursive "$d" 0 0 0755 0644 u:object_r:vendor_file:s0
 done
 

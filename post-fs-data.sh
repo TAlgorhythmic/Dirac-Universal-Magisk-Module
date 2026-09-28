@@ -19,8 +19,10 @@ dlog "config=$CONFIG startAtBoot=$STARTATBOOT storeSettings=$STORESETTINGS"
 
 resetprop -n ro.audio.ignore_effects false
 
-resetprop -n ro.vendor.dirac.startAtBoot "$STARTATBOOT"
+resetprop -n vendor.dirac.config "$CONFIG"
 resetprop -n ro.vendor.dirac.config "$CONFIG"
+resetprop -n persist.vendor.dirac.config "$CONFIG"
+resetprop -n ro.vendor.dirac.startAtBoot "$STARTATBOOT"
 resetprop -n ro.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
 resetprop -n ro.vendor.dirac.acs.config "$CONFIG"
 resetprop -n ro.vendor.dirac.acs.forceAfm true

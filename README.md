@@ -31,11 +31,7 @@ impulse-response filters, EQ, and spatial effects.
 
   Magisk and APatch mount modules themselves and need nothing extra.
 * **KernelSU only:** both APKs ship inside the module, so unmounting modules for
-  an app takes that app's own APK with it. Pick one:
-    * Turn off *Umount modules by default* in the KernelSU settings, or
-    * Disable *Umount modules* in App Profile for `me.algorhythmics.diracui` and
-      `se.dirac.acs`. Doing the same for your Launcher, SystemUI, Settings and
-      PermissionController is also recommended.
+  an app takes that app's own APK with it. Turn off *Umount modules by default* in the KernelSU settings
 
 ## Installing
 

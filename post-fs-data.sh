@@ -15,17 +15,36 @@ AMLDIR=/data/adb/modules/aml
 
 dlog() { /system/bin/log -p i -t dirac "$1" 2>/dev/null; }
 
-# Props
-rprop() {
-	if command -v resetprop >/dev/null 2>&1; then resetprop -n "$@"
-	elif command -v magisk >/dev/null 2>&1; then magisk resetprop -n "$@"
-	else dlog "no resetprop available, properties not set"; return 1; fi
-}
-
-rprop "$NS.config" "$CONFIG"
-rprop "$NS.acs.startAtBoot" "$STARTATBOOT"
-rprop "$NS.acs.storeSettings" "$STORESETTINGS"
 dlog "config=$CONFIG startAtBoot=$STARTATBOOT storeSettings=$STORESETTINGS"
+
+resetprop -n ro.audio.ignore_effects false
+
+resetprop -n vendor.dirac.startAtBoot "$STARTATBOOT"
+resetprop -n vendor.dirac.config "$CONFIG"
+resetprop -n vendor.dirac.acs.startAtBoot "$STARTATBOOT"
+resetprop -n vendor.dirac.acs.config "$CONFIG"
+resetprop -n vendor.dirac.acs.forceAfm true
+resetprop -n vendor.dirac.storeSettings "$STORESETTINGS"
+resetprop -n vendor.dirac.acs.storeSettings "$STORESETTINGS"
+resetprop -n vendor.dirac.acs.ignore_error 0
+
+resetprop -n ro.vendor.dirac.startAtBoot "$STARTATBOOT"
+resetprop -n ro.vendor.dirac.config "$CONFIG"
+resetprop -n ro.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
+resetprop -n ro.vendor.dirac.acs.config "$CONFIG"
+resetprop -n ro.vendor.dirac.acs.forceAfm true
+resetprop -n ro.vendor.dirac.storeSettings "$STORESETTINGS"
+resetprop -n ro.vendor.dirac.acs.storeSettings "$STORESETTINGS"
+resetprop -n ro.vendor.dirac.acs.ignore_error 0
+
+resetprop -n persist.vendor.dirac.startAtBoot "$STARTATBOOT"
+resetprop -n persist.vendor.dirac.config "$CONFIG"
+resetprop -n persist.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
+resetprop -n persist.vendor.dirac.acs.config "$CONFIG"
+resetprop -n persist.vendor.dirac.acs.forceAfm true
+resetprop -n persist.vendor.dirac.storeSettings "$STORESETTINGS"
+resetprop -n persist.vendor.dirac.acs.storeSettings "$STORESETTINGS"
+resetprop -n persist.vendor.dirac.acs.ignore_error 0
 
 # Effect registration
 [ -d "$AMLDIR" ] && [ ! -f "$AMLDIR/disable" ] && {

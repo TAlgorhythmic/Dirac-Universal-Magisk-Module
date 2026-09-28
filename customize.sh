@@ -50,13 +50,10 @@ for s in post-fs-data.sh service.sh uninstall.sh stage_apps.sh; do
 	[ -f "$MODPATH/$s" ] && set_perm "$MODPATH/$s" 0 0 0755
 done
 
-ui_print "- Effects are registered at every boot by post-fs-data.sh"
-
 if [ "$KSU" = "true" ]; then
 	ui_print "! WARNING: KernelSU detected"
-	ui_print "! Additional manual configuration is required, pick one:"
-	ui_print "-> Turn off 'Umount modules by default' in KernelSU settings"
-	ui_print "-> Disable 'Umount modules' in App Profile for 'DiracUI' (me.algorhythmics.diracui) and 'Dirac Control Service' (se.dirac.acs) after reboot. Doing the same for your Launcher, SystemUI, Settings and PermissionController is also recommended for proper functioning."
+	ui_print "! Additional manual configuration is required:"
+	ui_print " -> Turn off 'Umount modules by default' in KernelSU settings"
 fi
 
 ui_print "- Done. Reboot to apply."

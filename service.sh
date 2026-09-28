@@ -12,15 +12,6 @@ dlog "Running dirac service.sh"
 
 resetprop -n ro.audio.ignore_effects false
 
-resetprop -n vendor.dirac.startAtBoot "$STARTATBOOT"
-resetprop -n vendor.dirac.config "$CONFIG"
-resetprop -n vendor.dirac.acs.startAtBoot "$STARTATBOOT"
-resetprop -n vendor.dirac.acs.config "$CONFIG"
-resetprop -n vendor.dirac.acs.forceAfm true
-resetprop -n vendor.dirac.storeSettings "$STORESETTINGS"
-resetprop -n vendor.dirac.acs.storeSettings "$STORESETTINGS"
-resetprop -n vendor.dirac.acs.ignore_error 0
-
 resetprop -n ro.vendor.dirac.startAtBoot "$STARTATBOOT"
 resetprop -n ro.vendor.dirac.config "$CONFIG"
 resetprop -n ro.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
@@ -29,15 +20,6 @@ resetprop -n ro.vendor.dirac.acs.forceAfm true
 resetprop -n ro.vendor.dirac.storeSettings "$STORESETTINGS"
 resetprop -n ro.vendor.dirac.acs.storeSettings "$STORESETTINGS"
 resetprop -n ro.vendor.dirac.acs.ignore_error 0
-
-resetprop -n persist.vendor.dirac.startAtBoot "$STARTATBOOT"
-resetprop -n persist.vendor.dirac.config "$CONFIG"
-resetprop -n persist.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
-resetprop -n persist.vendor.dirac.acs.config "$CONFIG"
-resetprop -n persist.vendor.dirac.acs.forceAfm true
-resetprop -n persist.vendor.dirac.storeSettings "$STORESETTINGS"
-resetprop -n persist.vendor.dirac.acs.storeSettings "$STORESETTINGS"
-resetprop -n persist.vendor.dirac.acs.ignore_error 0
 
 NS=vendor.dirac
 CFG=$(getprop $NS.config)

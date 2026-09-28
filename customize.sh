@@ -15,7 +15,7 @@ case "$ARCH" in
 	arm64)
 		;;
 	arm)
-		rm -rf "$MODPATH/system/lib64"
+		rm -rf "$MODPATH/system/vendor/lib64"
 		;;
 	*) abort "! Unsupported architecture: $ARCH" ;;
 esac
@@ -39,21 +39,22 @@ done
 ui_print "- Setting permissions"
 set_perm_recursive "$MODPATH" 0 0 0755 0644
 
+# Perms + SELinux
 for d in "$MODPATH/system/vendor/etc" "$MODPATH/system/odm/etc" "$MODPATH/system/my_product/etc"; do
 	[ -d "$d" ] && set_perm_recursive "$d" 0 0 0755 0644 u:object_r:vendor_configs_file:s0
 done
-for d in "$MODPATH/system/lib/soundfx" "$MODPATH/system/lib64/soundfx"; do
-	[ -d "$d" ] && set_perm_recursive "$d" 0 0 0755 0644
+for d in "$MODPATH/system/vendor/lib/soundfx" "$MODPATH/system/vendor/lib64/soundfx"; do
+	[ -d "$d" ] && set_perm_recursive "$d" 0 0 0755 0644 u:object_r:vendor_file:s0
 done
 
-for s in post-fs-data.sh service.sh uninstall.sh stage_apps.sh; do
+for s in post-fs-data.sh service.sh uninstall.sh; do
 	[ -f "$MODPATH/$s" ] && set_perm "$MODPATH/$s" 0 0 0755
 done
 
 if [ "$KSU" = "true" ]; then
 	ui_print "! WARNING: KernelSU detected"
 	ui_print "! Additional manual configuration is required:"
-	ui_print " -> Turn off 'Umount modules by default' in KernelSU settings"
+	ui_print "! Turn off 'Umount modules by default' in KernelSU settings"
 fi
 
 ui_print "- Done. Reboot to apply."

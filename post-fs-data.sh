@@ -19,15 +19,6 @@ dlog "config=$CONFIG startAtBoot=$STARTATBOOT storeSettings=$STORESETTINGS"
 
 resetprop -n ro.audio.ignore_effects false
 
-resetprop -n vendor.dirac.startAtBoot "$STARTATBOOT"
-resetprop -n vendor.dirac.config "$CONFIG"
-resetprop -n vendor.dirac.acs.startAtBoot "$STARTATBOOT"
-resetprop -n vendor.dirac.acs.config "$CONFIG"
-resetprop -n vendor.dirac.acs.forceAfm true
-resetprop -n vendor.dirac.storeSettings "$STORESETTINGS"
-resetprop -n vendor.dirac.acs.storeSettings "$STORESETTINGS"
-resetprop -n vendor.dirac.acs.ignore_error 0
-
 resetprop -n ro.vendor.dirac.startAtBoot "$STARTATBOOT"
 resetprop -n ro.vendor.dirac.config "$CONFIG"
 resetprop -n ro.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
@@ -36,15 +27,6 @@ resetprop -n ro.vendor.dirac.acs.forceAfm true
 resetprop -n ro.vendor.dirac.storeSettings "$STORESETTINGS"
 resetprop -n ro.vendor.dirac.acs.storeSettings "$STORESETTINGS"
 resetprop -n ro.vendor.dirac.acs.ignore_error 0
-
-resetprop -n persist.vendor.dirac.startAtBoot "$STARTATBOOT"
-resetprop -n persist.vendor.dirac.config "$CONFIG"
-resetprop -n persist.vendor.dirac.acs.startAtBoot "$STARTATBOOT"
-resetprop -n persist.vendor.dirac.acs.config "$CONFIG"
-resetprop -n persist.vendor.dirac.acs.forceAfm true
-resetprop -n persist.vendor.dirac.storeSettings "$STORESETTINGS"
-resetprop -n persist.vendor.dirac.acs.storeSettings "$STORESETTINGS"
-resetprop -n persist.vendor.dirac.acs.ignore_error 0
 
 # Effect registration
 [ -d "$AMLDIR" ] && [ ! -f "$AMLDIR/disable" ] && {
@@ -75,10 +57,10 @@ add_effect_conf() {
 # the copy matching audioserver's own bitness - ELF class byte 5 is 2 for 64-bit.
 conf_lib_path() {
 	if [ "$(od -An -tu1 -j4 -N1 /system/bin/audioserver 2>/dev/null | tr -d ' ')" = 2 ] \
-	   && [ -f "$MODDIR/system/lib64/soundfx/$EFFECTLIB" ]; then
-		echo "/system/lib64/soundfx/$EFFECTLIB"
+	   && [ -f "$MODDIR/system/vendor/lib64/soundfx/$EFFECTLIB" ]; then
+		echo "/system/vendor/lib64/soundfx/$EFFECTLIB"
 	else
-		echo "/system/lib/soundfx/$EFFECTLIB"
+		echo "/system/vendor/lib/soundfx/$EFFECTLIB"
 	fi
 }
 

@@ -5,10 +5,6 @@ Dirac audio for any Android device.
 Dirac Audio is a stock OEM sound-enhancement stack featuring headphone
 impulse-response filters, EQ, and spatial effects.
 
-## Current issues
-
-* It doesn't properly work with Bluetooth.
-
 ## Features
 
 * **Headphone filters** - impulse-response correction, six profiles bundled

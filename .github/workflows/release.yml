@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag matches module.prop version
+        if: github.ref_type == 'tag'
+        run: |
+          version=$(sed -n 's/^version=//p' module.prop)
+          [ "$version" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME != module.prop version $version"; exit 1; }
+
+      - name: Sign APKs
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          build_tools="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          keystore="$RUNNER_TEMP/release.jks"
+          echo "$KEYSTORE_BASE64" | base64 -d > "$keystore"
+          find system -name '*.apk' | while read -r apk; do
+            "$build_tools/zipalign" -f -p 4 "$apk" "$apk.aligned"
+            "$build_tools/apksigner" sign --ks "$keystore" \
+              --ks-pass env:KEYSTORE_PASSWORD --ks-key-alias "$KEY_ALIAS" --key-pass env:KEY_PASSWORD \
+              --out "$apk" "$apk.aligned"
+            rm "$apk.aligned" "$apk.idsig" 2>/dev/null || true
+            "$build_tools/apksigner" verify --print-certs "$apk"
+          done
+          rm "$keystore"
+
+      - name: Build module zip
+        run: make check && make
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: module-zip
+          path: out/*.zip
+
+      - name: Publish GitHub release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" out/*.zip --title "$GITHUB_REF_NAME" --generate-notes

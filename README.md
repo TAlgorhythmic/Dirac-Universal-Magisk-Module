@@ -10,6 +10,7 @@ impulse-response filters, EQ, and spatial effects.
 * **Headphone filters** - impulse-response correction, six profiles bundled
 * **Equalizer** - per-usecase, applied in the DSP rather than the app
 * **Spatial effects** - Dirac's SFX processing for speaker and headset
+* **Game Mode** - Dirac's game mode for supported use cases.
 * **Stereo width and tonal balance** - continuous, `-1.0` to `+1.0`
 * **Presets** - DiracUI stores a preset per Bluetooth device and per output,
   and applies it as soon as the service binds

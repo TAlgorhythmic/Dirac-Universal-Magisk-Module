@@ -59,7 +59,7 @@ check:
 	grep -q '^#MAGISK' META-INF/com/google/android/updater-script \
 		|| { echo "updater-script must start with #MAGISK"; fail=1; }; \
 	for f in $(TEXT); do \
-		! grep -qU $$'\r' $$f || { echo "$$f: CRLF line endings"; fail=1; }; \
+		! grep -qU "$$(printf '\r')" $$f || { echo "$$f: CRLF line endings"; fail=1; }; \
 	done; \
 	[ $$fail -eq 0 ] && echo "check: ok $(ID) $(VERSION) ($(VERSION_CODE))"; \
 	exit $$fail

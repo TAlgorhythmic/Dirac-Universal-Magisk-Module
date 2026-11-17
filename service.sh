@@ -8,6 +8,16 @@ set -x
 
 dlog() { /system/bin/log -p i -t dirac "$1" 2>/dev/null; }
 
+# cmd-based tools (appops, pm, settings) pass their fds to system_server, which can't
+# write to service.log (system_file in the module dir) and fails with "Failed transaction".
+# Capturing through a pipe works.
+run() {
+	out=$("$@" </dev/null 2>&1)
+	rc=$?
+	[ -n "$out" ] && echo "$out"
+	return $rc
+}
+
 dlog "Running dirac service.sh"
 
 NS=vendor.dirac
@@ -45,28 +55,43 @@ fi
 
 API=$(getprop ro.build.version.sdk)
 
-if appops get "$ACSPKG" > /dev/null 2>&1; then
+# Prevent the service from booting into safe-mode.
+if [ "$API" -ge 28 ]; then
+	EX='Landroid/media/audiofx/AudioEffect;'
+	CUR=$(run settings get global hidden_api_blacklist_exemptions)
+	case "$CUR" in
+		*"$EX"*) ;;
+		*)
+			[ -z "$CUR" ] || [ "$CUR" = null ] || EX="$CUR,$EX"
+			run settings put global hidden_api_blacklist_exemptions "$EX"
+			sleep 1
+			pkill -x "$ACSPKG"
+			;;
+	esac
+fi
+
+if run appops get "$ACSPKG" > /dev/null; then
 	if [ "$API" -ge 30 ]; then
-		appops set "$ACSPKG" AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
+		run appops set "$ACSPKG" AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
 	fi
 	if [ "$API" -ge 33 ]; then
-		appops set "$ACSPKG" ACCESS_RESTRICTED_SETTINGS allow
+		run appops set "$ACSPKG" ACCESS_RESTRICTED_SETTINGS allow
 	fi
 	if [ "$API" -ge 35 ]; then
-		pm grant --all-permissions "$ACSPKG"
+		run pm grant --all-permissions "$ACSPKG"
 	fi
 fi
 
-if appops get "$UIPKG" > /dev/null 2>&1; then
+if run appops get "$UIPKG" > /dev/null; then
 	if [ "$API" -ge 30 ]; then
-		appops set "$UIPKG" AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
+		run appops set "$UIPKG" AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
 	fi
 	if [ "$API" -ge 33 ]; then
-		appops set "$UIPKG" ACCESS_RESTRICTED_SETTINGS allow
+		run appops set "$UIPKG" ACCESS_RESTRICTED_SETTINGS allow
 	fi
 	if [ "$API" -ge 35 ]; then
-		pm grant --all-permissions "$UIPKG"
+		run pm grant --all-permissions "$UIPKG"
 	elif [ "$API" -ge 31 ]; then
-		pm grant "$UIPKG" android.permission.BLUETOOTH_CONNECT
+		run pm grant "$UIPKG" android.permission.BLUETOOTH_CONNECT
 	fi
 fi

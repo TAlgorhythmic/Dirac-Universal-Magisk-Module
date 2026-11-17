@@ -1,1 +1,2 @@
 allow priv_app vendor_default_prop file { read open getattr map }
+allow priv_app_36 vendor_default_prop file { read open getattr map }
